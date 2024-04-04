@@ -7,6 +7,7 @@ const Login=lazy(()=>import("./pages/Login"))
 const Groups=lazy(()=>import("./pages/Groups"))
 const Chat=lazy(()=>import("./pages/Chat"))
 
+let user=true;
 
 function App() {
 

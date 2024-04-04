@@ -14,6 +14,37 @@ import { useState } from "react";
 import { VisuallyHiddenInput } from "../components/styles/StyledComponents";
 const Login = () => {
   const [isLogin, setIsLogin] = useState(true);
+  const [login, setLogin] = useState({ username: "", password: "" });
+  const [register, setRegister] = useState({
+    name: "",
+    bio: "",
+    username: "",
+    password: "",
+    image: "",
+  });
+
+  function handleLoginChange(e) {
+    setLogin({ ...login, [e.target.name]: e.target.value });
+  }
+
+  function handleRegisterChange(e) {
+    setRegister({ ...register, [e.target.name]: e.target.value });
+  }
+
+  const handleImageChange = (event) => {
+    const selectedImage = event.target.files[0];
+    // Check if an image is selected
+    if (selectedImage) {
+      // Read the image file as a data URL
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        // Set the image data URL in the state
+        setRegister({ ...register, image: e.target.result });
+      };
+      reader.readAsDataURL(selectedImage);
+    }
+  };
+
   return (
     <>
       <Container
@@ -42,18 +73,24 @@ const Login = () => {
                 <TextField
                   required
                   fullWidth
+                  name="username"
                   label="Username"
                   margin="normal"
                   type="text"
                   variant="outlined"
+                  value={login.username}
+                  onChange={handleLoginChange}
                 />
                 <TextField
                   required
                   fullWidth
+                  name="password"
                   label="Password"
                   type="password"
                   margin="normal"
                   variant="outlined"
+                  value={login.password}
+                  onChange={handleLoginChange}
                 />
                 <Button
                   sx={{
@@ -93,6 +130,8 @@ const Login = () => {
                       objectFit: "contain",
                       backgroundColor: "rgba(0,0,0,.1)",
                     }}
+                    alt="Avatar"
+                    src={register.image}
                   >
                     <IconButton
                       sx={{
@@ -106,7 +145,10 @@ const Login = () => {
                       component="label"
                     >
                       <CameraAlt />
-                      <VisuallyHiddenInput type="file" />
+                      <VisuallyHiddenInput
+                        type="file"
+                        onChange={handleImageChange}
+                      />
                     </IconButton>
                   </Avatar>
                 </Stack>
@@ -114,34 +156,46 @@ const Login = () => {
                 <TextField
                   required
                   fullWidth
+                  name="name"
+                  value={register.name}
                   label="Name"
                   margin="normal"
                   type="text"
                   variant="outlined"
+                  onChange={handleRegisterChange}
                 />
                 <TextField
                   required
                   fullWidth
+                  name="bio"
+                  value={register.bio}
                   label="Bio"
                   margin="normal"
                   type="text"
                   variant="outlined"
+                  onChange={handleRegisterChange}
                 />
                 <TextField
                   required
                   fullWidth
+                  name="username"
+                  value={register.username}
                   label="Username"
                   margin="normal"
                   type="text"
                   variant="outlined"
+                  onChange={handleRegisterChange}
                 />
                 <TextField
                   required
                   fullWidth
+                  name="password"
+                  value={register.password}
                   label="Password"
                   type="password"
                   margin="normal"
                   variant="outlined"
+                  onChange={handleRegisterChange}
                 />
                 <Button
                   sx={{
