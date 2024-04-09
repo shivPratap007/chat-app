@@ -1,0 +1,1 @@
+export const orange=" #A020F0";
