@@ -1,5 +1,4 @@
 import Title from "../shared/Title";
-import Chatlist from "../specific/Chatlist";
 import Header from "./Header";
 import Grid from "@mui/material/Grid";
 
@@ -19,10 +18,10 @@ const Applayout = (WrappedComponent) => {
             sx={{ display: { xs: "none", sm: "block" } }}
             height={"100%"}
           >
-            <Chatlist chats={[1,2,3,4,5]}/>
+            First
           </Grid>
           <Grid item xs={12} sm={8} lg={6} height={"100%"}>
-            <WrappedComponent {...props} />
+            <WrappedComponent {...props}></WrappedComponent>
           </Grid>
           <Grid
             item
@@ -43,6 +42,5 @@ const Applayout = (WrappedComponent) => {
     );
   };
 };
-
 
 export default Applayout;
