@@ -1,4 +1,6 @@
 import { AppBar, Box, Toolbar } from "@mui/material";
+import Backdrop from "@mui/material/Backdrop";
+
 import { orange } from "../constants/color";
 import { Typography } from "@mui/material";
 import { IconButton } from "@mui/material";
@@ -8,28 +10,33 @@ import AddIcon from "@mui/icons-material/Add";
 import Tooltip from "@mui/material/Tooltip";
 import GroupAddIcon from "@mui/icons-material/GroupAdd";
 import { useNavigate } from "react-router-dom";
-import LogoutIcon from '@mui/icons-material/Logout';
-import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
-import { useState } from "react";
+import LogoutIcon from "@mui/icons-material/Logout";
+import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
+import { Suspense, lazy, useState } from "react";
+const SearchDialogue = lazy(() => import("../specific/Search.jsx"));
+const NotificationDialogue = lazy(() =>
+  import("../specific/Notifications.jsx")
+);
+const NewGroupDialogue = lazy(() => import("../specific/NewGroup.jsx"));
 
 const Header = () => {
   const navigate = useNavigate();
 
-  const[isMobile,setIsMobile]=useState(false);
-  const[isSearch,setIsSearch]=useState(false);
-  const[isNewGroup,setIsNewGroup]=useState(false);
-  const[isNotification,setIsNotification]=useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+  const [isSearch, setIsSearch] = useState(false);
+  const [isNewGroup, setIsNewGroup] = useState(false);
+  const [isNotification, setIsNotification] = useState(false);
 
   function handleMobile() {
-    setIsMobile(prev=>!prev);
+    setIsMobile((prev) => !prev);
   }
 
   function openSearchDialogue() {
-    setIsSearch(prev=>!prev);
+    setIsSearch((prev) => !prev);
   }
 
   function openNewGroup() {
-    setIsNewGroup(prev=>!prev);
+    setIsNewGroup((prev) => !prev);
   }
 
   function logoutHandler() {
@@ -37,7 +44,7 @@ const Header = () => {
   }
 
   function openNotification() {
-    setIsNotification(prev=>!prev);
+    setIsNotification((prev) => !prev);
   }
 
   const navigateToGroup = () => navigate("/groups");
@@ -54,9 +61,11 @@ const Header = () => {
               Chit Chat
             </Typography>
             <Box sx={{ display: { xs: "block", sm: "none" } }}>
-              <IconButton style={{ color: "white" }} onClick={handleMobile}>
-                <MenuIcon />
-              </IconButton>
+              <IconBtn
+                title={"Menu"}
+                onClick={handleMobile}
+                icon={<MenuIcon />}
+              />
             </Box>
             <Box sx={{ flexGrow: 1 }} />
             <Box>
@@ -89,6 +98,43 @@ const Header = () => {
           </Toolbar>
         </AppBar>
       </Box>
+      {isSearch && (
+        <Suspense
+          fallback={
+            <Backdrop
+              sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+              open={open}
+            ></Backdrop>
+          }
+        >
+          <SearchDialogue />
+        </Suspense>
+      )}
+      {isNotification && (
+        <Suspense
+          fallback={
+            <Backdrop
+              sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+              open={open}
+            ></Backdrop>
+          }
+        >
+          <NotificationDialogue />
+        </Suspense>
+      )}
+
+      {isNewGroup && (
+        <Suspense
+          fallback={
+            <Backdrop
+              sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+              open={open}
+            ></Backdrop>
+          }
+        >
+          <NewGroupDialogue />
+        </Suspense>
+      )}
     </>
   );
 };
